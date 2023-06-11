@@ -1,0 +1,29 @@
+import axios from "axios";
+import { API_URL } from '../../constants/config'
+
+const loginTaskApiClient = axios.create({
+  baseURL: API_URL,
+  headers: {
+    'Content-Type': 'multipart/form-data',
+  },
+  timeout: 60000,
+})
+
+export const login = async (params: FormData) => {
+  return loginTaskApiClient
+    .post(`/login?developer=Name`, params)
+    .then((response) => {
+      return response.data;
+    })
+    .catch((error) => {
+      if (error.response) {
+        console.log(error.response.data);
+        console.log(error.response.status);
+        console.log(error.response.headers);
+      } else if (error.request) {
+        console.log(error.request);
+      } else {
+        console.log(`Error message: ${error.message}`);
+      }
+    });
+};
